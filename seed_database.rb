@@ -3,8 +3,10 @@ module Tradeup
     BLACKLIST = [:VEF,:BTC]
     module Seeding
 
-      require 'mongoid'
+    require 'mongoid'
     require 'Tradeup/Database/Models'
+    require 'httparty'
+
 
     def connect_to_database
       # https://docs.digitalocean.com/products/app-platform/how-to/use-environment-variables/#component-specific-variables
