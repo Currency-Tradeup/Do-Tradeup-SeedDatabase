@@ -11,6 +11,6 @@ class GetCurrenciesTest < Minitest::Test
   end
 
   def test_contains_gbp_symbol
-    must_include Tradeup::Database::Seeding.get_currencies, 'BOOB'
+    assert_includes Tradeup::Database::Seeding.get_currencies, :GBP
   end
 end
