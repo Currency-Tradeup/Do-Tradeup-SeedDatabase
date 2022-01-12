@@ -8,14 +8,14 @@ module Tradeup
     require 'httparty'
 
 
-    def connect_to_database
+    def Seeding.connect_to_database
       # https://docs.digitalocean.com/products/app-platform/how-to/use-environment-variables/#component-specific-variables
       Mongo::Client.new([ ->{ENV['DATABASE_URL'] || '127.0.0.1:27017'} ],
                         :database => ->{ENV['DATABASE'] || 'Tradeup'}
       )
     end
 
-    def get_currencies
+    def Seeding.get_currencies
       currencies_response = JSON.parse(HTTParty.get('https://tradeup.currconv.com/api/v7/currencies',{ query: { apiKey:ENV['currency_converter_api'] } }).body,symbolize_names: true)[:results].keys.to_a
       whitelist  = currencies_response - BLACKLIST
       symbols = Parallel.map(whitelist,{in_threads:12}) do |symbol|
