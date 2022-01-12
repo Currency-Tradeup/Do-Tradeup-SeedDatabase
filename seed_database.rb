@@ -6,6 +6,7 @@ module Tradeup
     require 'mongoid'
     require 'Tradeup/Database/Models'
     require 'httparty'
+    require 'parallel'
 
 
     def Seeding.connect_to_database
