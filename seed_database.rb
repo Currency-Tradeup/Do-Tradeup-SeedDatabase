@@ -21,24 +21,24 @@ module Tradeup
       currencies_response - BLACKLIST
     end
 
-    def generate_pairs
+    def Seeding.generate_pairs(currencies)
 
     end
 
-    def seed_pairs(pairs)
+    def Seeding.seed_pairs(pairs)
       Models::Pair
     end
 
-    def generate_chains(start_currency,pairs,end_currency)
+    def Seeding.generate_chains(start_currency,pairs,end_currency)
 
     end
 
-    def seed_chains(chains)
+    def Seeding.seed_chains(chains)
       Models::Chain
     end
 
     if __FILE__ == $0
-      pairs = generate_pairs
+      pairs = generate_pairs(get_currencies)
       seed_pairs(pairs)
       seed_chains(generate_chains('GBP',pairs,'GBP'))
     end
