@@ -18,11 +18,7 @@ module Tradeup
 
     def Seeding.get_currencies
       currencies_response = JSON.parse(HTTParty.get('https://tradeup.currconv.com/api/v7/currencies',{ query: { apiKey:ENV['currency_converter_api'] } }).body,symbolize_names: true)[:results].keys.to_a
-      whitelist  = currencies_response - BLACKLIST
-      symbols = Parallel.map(whitelist,{in_threads:12}) do |symbol|
-        {symbol: symbol}
-      end
-      return symbols
+      currencies_response - BLACKLIST
     end
 
     def generate_pairs
