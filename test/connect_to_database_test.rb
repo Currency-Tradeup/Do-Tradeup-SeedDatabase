@@ -13,4 +13,8 @@ class ConnectToDatabaseTest < Minitest::Test
   def test_database_connection
     Tradeup::Database::Seeding.connect_to_database
   end
+
+  def test_testing_database_connection
+    Tradeup::Database::Seeding.connect_to_test_database
+  end
 end
