@@ -1,4 +1,12 @@
 module Tradeup
+  require 'httparty'
+  def Tradeup.get_rate(symbol_one,symbol_two)
+    response = HTTParty.get('https://tradeup.currconv.com/api/v7/convert',
+                 {query: { apiKey:ENV['currency_converter_api'] ,
+                           q:["#{symbol_one}_#{symbol_two}"].join(","), compact:'ultra'}}).body
+    JSON.parse(response,symbolize_names: true).values[0].to_f
+  end
+
   module Database
     BLACKLIST = [:VEF,:BTC]
     module Seeding
@@ -38,7 +46,11 @@ module Tradeup
     end
 
     def Seeding.seed_pairs(pairs)
-      Models::Pair
+      Parallel.each(pairs) do pair
+        amount =
+        pair_to_insert = Models::Pair.create
+      end
+
     end
 
     def Seeding.generate_chains(start_currency,pairs,end_currency)
