@@ -11,9 +11,10 @@ module Tradeup
 
     def Seeding.connect_to_database
       # https://docs.digitalocean.com/products/app-platform/how-to/use-environment-variables/#component-specific-variables
-      Mongo::Client.new([ ->{ENV['DATABASE_URL'] || '127.0.0.1:27017'} ],
-                        :database => ->{ENV['DATABASE'] || 'Tradeup'}
-      )
+      # Mongo::Client.new([ ->{ENV['DATABASE_URL'] || '127.0.0.1:27017'} ],
+      #                   :database => ->{ENV['DATABASE'] || 'Tradeup'}
+      # )
+      Mongoid.load!('config/mongoid.yml')
     end
 
     def Seeding.get_currencies
@@ -22,7 +23,11 @@ module Tradeup
     end
 
     def Seeding.generate_pairs(currencies)
-
+      pairs = Parallel.map(currencies) do |currency|
+        repeated = [currency] * currencies.count
+        repeated.zip(currencies.to_a)
+      end
+      pairs.flatten!(1)
     end
 
     def Seeding.seed_pairs(pairs)
