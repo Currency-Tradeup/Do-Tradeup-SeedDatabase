@@ -7,6 +7,10 @@ module Tradeup
     JSON.parse(response,symbolize_names: true).values[0].to_f
   end
 
+  def Tradeup.get_rates(pairs)
+
+  end
+
   module Database
     BLACKLIST = [:VEF,:BTC]
     module Seeding
@@ -46,11 +50,12 @@ module Tradeup
     end
 
     def Seeding.seed_pairs(pairs)
-      Parallel.each(pairs) do pair
-        amount =
-        pair_to_insert = Models::Pair.create
+      Parallel.map(pairs,in_threads: pairs.count) do |pair|
+       # all symbols in pairs get converted to strings here (saves ram).
+       # inserts currency symbols into the database
+        amount = Tradeup.get_rate pair[0].to_s,pair[1].to_s
+        Models::Pair.create!({symbol_one:pair[0].to_s,symbol_two:pair[0].to_s,amount: amount})
       end
-
     end
 
     def Seeding.generate_chains(start_currency,pairs,end_currency)
