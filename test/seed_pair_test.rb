@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require '../seed_database'
+require_relative '../seed_database'
 require 'Tradeup/Database/Models'
 
 class SeedPairTest < Minitest::Test
@@ -14,6 +14,18 @@ class SeedPairTest < Minitest::Test
   end
 
   def test_that_gbpusd_pair_exists
+    from_currency_symbol_list = Tradeup::Database::Seeding.get_currencies
+    from_pairs_list = Tradeup::Database::Seeding.generate_pairs from_currency_symbol_list
+    Tradeup::Database::Seeding.seed_pairs from_pairs_list
+    gbp_usd = Tradeup::Database::Models::Pair.find({"symbol_one" => 'GBP',"symbol_two" =>'USD' })
+    assert_equal gbp_usd.exists?, true
+  end
 
+  def test_that_usdgbp_pair_exists
+    from_currency_symbol_list = Tradeup::Database::Seeding.get_currencies
+    from_pairs_list = Tradeup::Database::Seeding.generate_pairs from_currency_symbol_list
+    Tradeup::Database::Seeding.seed_pairs from_pairs_list
+    usd_gbp = Tradeup::Database::Models::Pair.find({"symbol_one" => 'USD',"symbol_two" =>'GBP' })
+    assert_equal usd_gbp.exists?, true
   end
 end
