@@ -1,7 +1,7 @@
 development:
   clients:
     default:
-      database: Tradeup
+      database: Tradeup-test
       hosts:
         - localhost:27017
       options:
