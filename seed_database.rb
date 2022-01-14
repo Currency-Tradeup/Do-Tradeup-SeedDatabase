@@ -11,6 +11,10 @@ module Tradeup
 
   end
 
+  def Tradeup.select_rate(symbol_one, symbol_two,rates)
+    rates.select { |rate| rate.include?("#{ symbol_one }_#{symbol_two}".to_sym) }[0]
+  end
+
   module Database
     BLACKLIST = [:VEF,:BTC]
     module Seeding
