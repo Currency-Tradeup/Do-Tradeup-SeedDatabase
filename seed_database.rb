@@ -8,10 +8,31 @@ module Tradeup
   end
 
   def Tradeup.get_rates(pairs)
+    # puts "pairs is"
+    # puts pairs
+    pairs.uniq!
+    rates = {}
+    pairs = pairs.each_slice(250).to_a
 
+    pairs.each do |pairs_slice|
+      pairs_strings = []
+      pairs_slice.each do |symbol|
+        new_conversion_symbol = "#{symbol[0]}_#{symbol[1]}"
+        pairs_strings.append new_conversion_symbol
+      end
+      response = HTTParty.get('https://tradeup.currconv.com/api/v7/convert',
+                              {query: { apiKey:ENV['currency_converter_api'] ,
+                                        q:pairs_strings.join(","), compact:'ultra'}}).body
+      rates.merge!(JSON.parse(response,symbolize_names: true))
+    end
+    # rates = rates
+    puts rates.count.to_s
+    return rates
   end
 
   def Tradeup.select_rate(symbol_one, symbol_two,rates)
+    puts "rates is"
+    puts rates.to_s
     rates.select { |rate| rate.include?("#{ symbol_one }_#{symbol_two}".to_sym) }[0]
   end
 

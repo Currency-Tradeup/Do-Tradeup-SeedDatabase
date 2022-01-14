@@ -12,11 +12,8 @@ class GetRatesTest < Minitest::Test
 
   def contains_pair(symbol_one,symbol_two)
     using_pairs = generate_pairs_using_defaults
-    rates = Tradeup::Database.get_rates using_pairs
-    selected_rate = Tradeup.select_rate(rates, symbol_one, symbol_two)
-    puts "Selected Rate is"
-    puts selected_rate
-    selected_rate.keys.include? ["#{ symbol_one }_#{symbol_two}".to_sym]
+    rates = Tradeup.get_rates using_pairs
+    rates.has_key? "#{symbol_one}_#{symbol_two}"
   end
 
   def test_get_rates_contains_gbp_usd
@@ -28,7 +25,8 @@ class GetRatesTest < Minitest::Test
   def test_if_blacklist_is_in_rates
     pairs = generate_pairs_using_defaults
     Tradeup::Database::BLACKLIST.each do |symbol|
-      assert_equal contains_pair(symbol,symbol),true # tests for a known marker of a symbols presence. very lazy
+      assert_equal contains_pair('GBP',symbol),true # tests for a known marker of a symbols presence. very lazy
+      assert_equal contains_pair(symbol,'GBP'),true # tests for a known marker of a symbols presence. very lazy
     end
   end
 
