@@ -7,9 +7,8 @@ module Tradeup
     JSON.parse(response,symbolize_names: true).values[0].to_f
   end
 
+  # returns a huge hash of currency conversion rates
   def Tradeup.get_rates(pairs)
-    # puts "pairs is"
-    # puts pairs
     pairs.uniq!
     rates = {}
     pairs = pairs.each_slice(250).to_a
