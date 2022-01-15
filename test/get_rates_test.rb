@@ -13,14 +13,14 @@ class GetRatesTest < Minitest::Test
   def contains_pair(symbol_one,symbol_two)
     using_pairs = generate_pairs_using_defaults
     rates = Tradeup.get_rates using_pairs
-    rates.has_key? "#{symbol_one}_#{symbol_two}"
+    rates.has_key? "#{symbol_one}_#{symbol_two}".to_sym
   end
 
   def test_get_rates_contains_gbp_usd
-    assert_equal contains_pair('GBP','USD'), true
+    assert contains_pair('GBP','USD')
   end
   def test_get_rates_contains_usd_gbp
-    assert_equal contains_pair('USD','GBP'), true
+    assert contains_pair('USD','GBP')
   end
   def test_if_blacklist_is_in_rates
     pairs = generate_pairs_using_defaults

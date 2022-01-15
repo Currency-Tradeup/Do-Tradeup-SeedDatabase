@@ -24,8 +24,6 @@ module Tradeup
                                         q:pairs_strings.join(","), compact:'ultra'}}).body
       rates.merge!(JSON.parse(response,symbolize_names: true))
     end
-    # rates = rates
-    puts rates.count.to_s
     return rates
   end
 
