@@ -72,12 +72,12 @@ module Tradeup
     end
 
     def Seeding.seed_pairs(pairs)
-      Parallel.map(pairs,in_threads: pairs.count) do |pair|
-       # all symbols in pairs get converted to strings here (saves ram).
-       # inserts currency symbols into the database
-        amount = Tradeup.get_rate pair[0].to_s,pair[1].to_s
-        Models::Pair.create!({symbol_one:pair[0].to_s,symbol_two:pair[0].to_s,amount: amount})
+      rates = Tradeup.get_rates pairs # get a  snapshot of all possible exhange rates
+      rates.freeze
+      documents = Parallel.map(pairs,in_threads:270) do |pair|
+       {symbol_one:pair[0].to_s,symbol_two:pair[1].to_s,amount: rates["#{pair[0].to_s}_#{pair[1].to_s}".to_sym]}
       end
+      Models::Pair.create! documents
     end
 
     def Seeding.generate_chains(start_currency,pairs,end_currency)
