@@ -81,7 +81,9 @@ module Tradeup
     end
 
     def Seeding.generate_chains(start_currency,pairs,end_currency)
-
+      chains = Parallel.map(pairs,in_threads:270) do |pair|
+        [start_currency] + pair + [end_currency]
+      end
     end
 
     def Seeding.seed_chains(chains)
@@ -90,6 +92,7 @@ module Tradeup
 
     if __FILE__ == $0
       pairs = generate_pairs(get_currencies)
+      rates = Tradeup.get_rates pairs
       seed_pairs(pairs)
       seed_chains(generate_chains('GBP',pairs,'GBP'))
     end
