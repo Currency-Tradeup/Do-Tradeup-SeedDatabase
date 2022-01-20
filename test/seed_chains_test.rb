@@ -15,8 +15,11 @@ class SeedChainsTest < Minitest::Test
   def test_seed_chains
     currencies = Tradeup::Database::Seeding.get_currencies
     pairs = Tradeup::Database::Seeding.generate_pairs currencies
-    rates = Tradeup::Database.get_rates
+    rates = Tradeup.get_rates pairs
     chains = Tradeup::Database::Seeding.generate_chains(:GBP,pairs,:GBP)
+    Tradeup::Database::Seeding.connect_to_test_database
     Tradeup::Database::Seeding.seed_chains chains,rates
+    chain = Tradeup::Database::Models::Chain.where(symbol_one: "GBP",symbol_two: "EUR" ,symbol_three: "USD",symbol_four: "GBP")
+    assert chain.exists?
   end
 end

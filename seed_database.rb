@@ -86,15 +86,38 @@ module Tradeup
       end
     end
 
-    def Seeding.seed_chains(chains)
-      Models::Chain
+    def Seeding.seed_chains(chains,rates)
+      rates.freeze
+      documents = Parallel.map(chains,in_threads:270) do |chain|
+        swap_one = rates["#{chain[0].to_s}_#{chain[1].to_s}"].to_f
+        swap_two = rates["#{chain[1].to_s}_#{chain[2].to_s}"].to_f
+        swap_three = rates["#{chain[2].to_s}_#{chain[3].to_s}"].to_f
+        amount = swap_one.to_f * swap_two.to_f * swap_three.to_f
+        {symbol_one: chain[0].to_s,
+         swap_one: swap_one,
+         symbol_two: chain[1].to_s,
+         swap_two: swap_two,
+         symbol_three:chain[2].to_s,
+         swap_three: swap_three,
+         symbol_four: chain[3].to_s,
+         amount:amount}
+      end
+      #  field :symbol_one, type: String
+      #         field :swap_one, type: Float, default: 0.0
+      #         field :symbol_two, type: String
+      #         field :swap_two, type: Float, default: 0.0
+      #         field :symbol_three, type: String
+      #         field :swap_three, type: Float, default: 0.0
+      #         field :symbol_four, type: String
+      #         field :amount, type: Float, default: 0.0
+      Models::Chain.create! documents
     end
 
     if __FILE__ == $0
       pairs = generate_pairs(get_currencies)
       rates = Tradeup.get_rates pairs
       seed_pairs(pairs)
-      seed_chains(generate_chains('GBP',pairs,'GBP'))
+      seed_chains(generate_chains('GBP',pairs,'GBP'),rates)
     end
     end
   end
