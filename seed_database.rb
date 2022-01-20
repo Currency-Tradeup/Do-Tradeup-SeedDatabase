@@ -114,10 +114,12 @@ module Tradeup
     end
 
     if __FILE__ == $0
-      pairs = generate_pairs(get_currencies)
+      currencies = Tradeup::Database::Seeding.get_currencies
+      pairs = Tradeup::Database::Seeding.generate_pairs currencies
       rates = Tradeup.get_rates pairs
-      seed_pairs(pairs)
-      seed_chains(generate_chains('GBP',pairs,'GBP'),rates)
+      chains = Tradeup::Database::Seeding.generate_chains(:GBP,pairs,:GBP)
+      Tradeup::Database::Seeding.connect_to_database
+      Tradeup::Database::Seeding.seed_chains chains,rates
     end
     end
   end
