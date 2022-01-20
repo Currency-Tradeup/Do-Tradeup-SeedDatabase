@@ -20,6 +20,7 @@ class SeedChainsTest < Minitest::Test
     Tradeup::Database::Seeding.connect_to_test_database
     Tradeup::Database::Seeding.seed_chains chains,rates
     chain = Tradeup::Database::Models::Chain.where(symbol_one: "GBP",symbol_two: "EUR" ,symbol_three: "USD",symbol_four: "GBP")
+    puts chain
     assert chain.exists?
   end
 end

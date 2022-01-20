@@ -89,9 +89,9 @@ module Tradeup
     def Seeding.seed_chains(chains,rates)
       rates.freeze
       documents = Parallel.map(chains,in_threads:270) do |chain|
-        swap_one = rates["#{chain[0].to_s}_#{chain[1].to_s}"].to_f
-        swap_two = rates["#{chain[1].to_s}_#{chain[2].to_s}"].to_f
-        swap_three = rates["#{chain[2].to_s}_#{chain[3].to_s}"].to_f
+        swap_one = rates["#{chain[0].to_s}_#{chain[1].to_s}".to_sym].to_f
+        swap_two = rates["#{chain[1].to_s}_#{chain[2].to_s}".to_sym].to_f
+        swap_three = rates["#{chain[2].to_s}_#{chain[3].to_s}".to_sym].to_f
         amount = swap_one.to_f * swap_two.to_f * swap_three.to_f
         {symbol_one: chain[0].to_s,
          swap_one: swap_one,
