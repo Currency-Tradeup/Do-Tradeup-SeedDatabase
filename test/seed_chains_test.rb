@@ -9,7 +9,8 @@ class SeedChainsTest < Minitest::Test
   end
 
   def teardown
-    # Do nothing
+    Tradeup::Database::Seeding.connect_to_test_database
+    Tradeup::Database::Models::Chain.delete_all
   end
 
   def test_seed_chains
@@ -19,8 +20,8 @@ class SeedChainsTest < Minitest::Test
     chains = Tradeup::Database::Seeding.generate_chains(:GBP,pairs,:GBP)
     Tradeup::Database::Seeding.connect_to_test_database
     Tradeup::Database::Seeding.seed_chains chains,rates
-    chain = Tradeup::Database::Models::Chain.where(symbol_one: "GBP",symbol_two: "EUR" ,symbol_three: "USD",symbol_four: "GBP")
-    puts chain
+    chain = Tradeup::Database::Models::Chain.where(symbol_one: "GBP",symbol_two: "USD" ,symbol_three: "EUR",symbol_four: "GBP",amount:{'$ne':0.0})
+    puts chain.to_a[0].to_s
     assert chain.exists?
   end
 end
