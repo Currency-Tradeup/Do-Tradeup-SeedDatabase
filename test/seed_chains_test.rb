@@ -13,6 +13,15 @@ class SeedChainsTest < Minitest::Test
     Tradeup::Database::Models::Chain.delete_all
   end
 
+  def test_for_correct_environment
+    # should have your currencyconverterapi.com key filled in
+    assert ENV['currency_converter_api']
+    # MONGO_POOLSIZE should be set to a huge number like 10000000
+    assert ENV['MONGO_POOLSIZE']
+    # mongoid env should be development or production
+    assert ENV['MONGOID_ENV']
+  end
+
   def test_seed_chains
     currencies = Tradeup::Database::Seeding.get_currencies
     pairs = Tradeup::Database::Seeding.generate_pairs currencies
