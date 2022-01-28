@@ -6,3 +6,16 @@ development:
         - localhost:27017
       options:
         server_selection_timeout: 1
+
+production:
+  clients:
+    default:
+      uri: "<%= ENV['DATABASE_URL'] %>"
+      database: Tradeup
+      hosts:
+        - "<%= ENV['HOSTNAME'] %>"
+      options:
+        ssl: true
+        replica_set: tradeup-chains
+        ssl_ca_cert_string: "<%= ENV['CA_CERT'] %>"
+        ssl_verify: true

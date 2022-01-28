@@ -110,6 +110,7 @@ module Tradeup
       #         field :swap_three, type: Float, default: 0.0
       #         field :symbol_four, type: String
       #         field :amount, type: Float, default: 0.0
+      Models::Chain.delete_all
       Models::Chain.create! documents
     end
 
