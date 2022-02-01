@@ -1,0 +1,54 @@
+GIT
+  remote: https://github.com/adisciple50/Do-Tradeup-Models
+  revision: ae2f5026ff425dcf38699aba687177443a0448d3
+  specs:
+    Do-Tradeup-Models (0.1.2)
+      mongoid (~> 7.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (6.1.4.4)
+      activesupport (= 6.1.4.4)
+    activesupport (6.1.4.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
+    bson (4.13.0)
+    concurrent-ruby (1.1.9)
+    httparty (0.20.0)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
+    i18n (1.8.11)
+      concurrent-ruby (~> 1.0)
+    mime-types (3.4.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2021.1115)
+    minitest (5.15.0)
+    mongo (2.17.0)
+      bson (>= 4.8.2, < 5.0.0)
+    mongoid (7.3.3)
+      activemodel (>= 5.1, < 6.2)
+      mongo (>= 2.10.5, < 3.0.0)
+      ruby2_keywords (~> 0.0.5)
+    multi_xml (0.6.0)
+    parallel (1.21.0)
+    ruby2_keywords (0.0.5)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+    zeitwerk (2.5.3)
+
+PLATFORMS
+  x64-mingw32
+
+DEPENDENCIES
+  Do-Tradeup-Models (~> 0.1.2)!
+  httparty
+  minitest
+  mongoid
+  parallel
+
+BUNDLED WITH
+   2.2.22
